@@ -66,8 +66,8 @@ start() {
 				do
 					ipset -A blacklist $IP
 				done
+				iptables -t nat -A REDSOCKS2 -p tcp -m set --match-set blacklist src -j RETURN
 			}
-			iptables -t nat -A REDSOCKS2 -p tcp -m set --match-set blacklist src -j RETURN
 		}
 
 		[ "$whitelist_enabled" = '1' ] && {
