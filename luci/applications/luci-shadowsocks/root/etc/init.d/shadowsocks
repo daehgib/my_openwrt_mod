@@ -79,9 +79,9 @@ start() {
 					for IP in $(cat $ipset_whitelist)
 					do
 						ipset -A whitelist $IP
-					done	
+					done
+					iptables -t nat -A SHADOWSOCKS -p tcp -m set ! --match-set whitelist dst -j REDIRECT --to-ports $redir_port	
 				}
-				iptables -t nat -A SHADOWSOCKS -p tcp -m set ! --match-set whitelist dst -j REDIRECT --to-ports $redir_port	
 			}
 		fi
 		iptables -t nat -I zone_lan_prerouting -j SHADOWSOCKS
